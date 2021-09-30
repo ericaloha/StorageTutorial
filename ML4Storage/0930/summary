@@ -1,0 +1,29 @@
+FAST’15 Chronicle: Capture and Analysis of NFS Workloads at Line Rate, Ardalan Kangarlou, Sandip Shete, and John D. Strunk. NetApp, Inc. 
+(1) Issues: 
+Problem Kernel: Network workloads have been instrumental in hardware and software design, problem diagnosis, and performance optimization. However, the lack of general frameworks for trace capture and workload analysis has impeded characterizing many storage workloads and systems.
+Working Scenario: Cloud Storage system via NFS.
+Shining point: Point out the performance impact is a critical issue when capturing traces. No need for special hardware. 
+(2) NFS Tracing: 
+Related Works. 
+Too slow: Driverdump*, a system based on modifying the network driver to directly store, which can operate at the rate of 1.4Gb/s.
+Cannot handle the whole steps: multiple cores for efficient packet processing is are limited to parsing the network header.
+Kernel frameworks: require expert knowledge to extend them in a performance-optimized way.
+This Work.
+Packet Reader reads Ethernet frames from a NIC using the netmap drivers; Network Parser parses the network header portion of a packet and multiplexing further processing across different Chronicle pipelines. 
+DataSeries Pipeline is for trace capture at high rates. Workload Sizer Pipeline is to perform real-time analytics on the NFS traffic. 
+(3) Evaluation：
+
+
+
+The Case for Learned Index Structures, Tim Kraska, MIT, Alex Beutel, Google, Inc, Ed H. Chi Google, Inc. Jeffrey Dean Google, Inc, Neoklis Polyzotis, Google, Inc
+(1) Issues: 
+Problem Kernel: Indexes are models, current solutions are less than enough. B-Tree is a model to map a key to the position of a record within a sorted array; Hash is a model to map a key to a position of a record within an unsorted array; BitMap is a model to indicate if a data record exists or not.
+Working Scenario: Not replace but many data structures can be decomposed into a learned model and an auxiliary structure to provide.
+Shining point: open the door for ML4storage .
+(2) Learned Index: 
+To learn a mapping function, f(key) ≈ pos, write key as x, and pos as y, hoping to learn a model f(x) approximately equal to y. Because x is sorted, So f is actually to model the CDF of the data. 
+Essentially, it is a regression problem: use the mean square error as the loss function to train the model, and use the hierarchical model to improve the accuracy. 
+Different from general ML, learned index need to consider the model’s output deviation (delta), need to find the largest error delta_max, and search for the starting point within the range of [y_pred-delta_max, y_pred+delta_max]. then binary search can be adopted and the time complexity is not very high.
+Simple neural nets with zero to two fully-connected hidden layers and ReLU activation functions and a layer width of up to 32 neurons.
+(3) Evaluation：
+(4) Conclusion: 
